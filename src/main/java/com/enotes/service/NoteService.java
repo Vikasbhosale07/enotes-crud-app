@@ -10,7 +10,9 @@ public interface NoteService {
 
     List<Note> getAllNotes();
 
-    Note updateNote(Integer id, Note note);
+    Note getNoteById(Long id);
 
-    void deleteNote(Integer id);
+    Note updateNote(Long id, Note note);
+
+    void deleteNote(Long id);
 }

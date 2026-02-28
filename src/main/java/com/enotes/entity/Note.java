@@ -1,10 +1,6 @@
 package com.enotes.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "notes")
@@ -12,60 +8,45 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    @Column(nullable = false, length = 100)
     private String title;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     // Default Constructor (Required by JPA)
     public Note() {
     }
 
-    // Parameterized Constructor
-    public Note(Integer id, String title, String content) {
-        this.id = id;
+    // Constructor without ID (ID is auto-generated)
+    public Note(String title, String content) {
         this.title = title;
         this.content = content;
     }
 
     // Getter for id
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    // Setter for id
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    // No setter for ID (optional but recommended)
+    // ID should not be manually modified
 
-    // Getter for title
     public String getTitle() {
         return title;
     }
 
-    // Setter for title
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    // Getter for content
     public String getContent() {
         return content;
     }
 
-    // Setter for content
-    public void setContent(String content) {
-        this.content = content;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    // Optional: toString() method (useful for debugging)
-    @Override
-    public String toString() {
-        return "Note{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+    public void setContent(String content) {
+        this.content = content;
     }
 }
