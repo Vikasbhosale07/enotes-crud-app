@@ -1,10 +1,10 @@
 package com.enotes.service;
 
 import com.enotes.entity.Note;
+import com.enotes.exception.NoteNotFoundException;
 import com.enotes.repository.NoteRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -29,8 +29,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public Note updateNote(Integer id, Note note) {
-        Note existingNote = noteRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Note not Found"));
+    public Note updateNote(Long id, Note note) {
+        Note existingNote = noteRepository.findById(id).orElseThrow(()->new NoteNotFoundException("Note not Found"));
         existingNote.setTitle(note.getTitle());
         existingNote.setContent(note.getContent());
 
@@ -38,8 +38,15 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void deleteNote(Integer id) {
-        Note existingNote=noteRepository.findById(id).orElseThrow(()-> new RuntimeException("Note not found"));
+    public Note getNoteById(Long id) {
+
+        return noteRepository.findById(id)
+                .orElseThrow(() -> new NoteNotFoundException("Note not Found"));
+    }
+
+    @Override
+    public void deleteNote(Long id) {
+        Note existingNote=noteRepository.findById(id).orElseThrow(()->new NoteNotFoundException("Note not Found"));
         noteRepository.delete(existingNote);
 
     }
